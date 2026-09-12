@@ -7,11 +7,14 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/app
 
-# Install system dependencies if needed and Python requirements
+# Install Python requirements
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend codebase into container
+# Copy both root-level packages so Python resolves:
+#   import agents.*       → /app/agents/
+#   import backend.*      → /app/backend/
+COPY agents ./agents
 COPY backend ./backend
 
 EXPOSE 8000

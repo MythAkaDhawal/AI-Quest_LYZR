@@ -1,6 +1,6 @@
 import json
-from backend.agents.base_agent import call_llm_agent, AgentUnavailableError
-from backend.agents.prompts import DIAGNOSTIC_PROMPT
+from agents.base_agent import call_llm_agent, AgentUnavailableError
+from agents.prompts import DIAGNOSTIC_PROMPT
 from backend.core.schemas import DiagnosticAgentOutput
 from backend.utils.logging_config import logger
 

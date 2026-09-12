@@ -1,9 +1,9 @@
 import pytest
-from backend.agents.prompts import DIAGNOSTIC_PROMPT, REMEDIATION_PROMPT, POST_MORTEM_PROMPT
-from backend.agents.diagnostic_agent import diagnose_root_cause
-from backend.agents.remediation_agent import generate_remediation
-from backend.agents.post_mortem_agent import generate_post_mortem
-from backend.agents.base_agent import AgentUnavailableError
+from agents.prompts import DIAGNOSTIC_PROMPT, REMEDIATION_PROMPT, POST_MORTEM_PROMPT
+from agents.diagnostic_agent import diagnose_root_cause
+from agents.remediation_agent import generate_remediation
+from agents.post_mortem_agent import generate_post_mortem
+from agents.base_agent import AgentUnavailableError
 
 
 def test_prompts_formatting():

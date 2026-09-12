@@ -1,6 +1,6 @@
 import pytest
-from backend.agents.prompts import TRIAGE_PROMPT, GOD_PROMPT
-from backend.agents.triage_agent import classify_severity, diagnose, AgentUnavailableError
+from agents.prompts import TRIAGE_PROMPT, GOD_PROMPT
+from agents.triage_agent import classify_severity, diagnose, AgentUnavailableError
 
 
 def test_triage_prompt_formatting():

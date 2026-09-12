@@ -1,6 +1,6 @@
 import json
-from backend.agents.base_agent import call_llm_agent, AgentUnavailableError
-from backend.agents.prompts import TRIAGE_PROMPT, GOD_PROMPT
+from agents.base_agent import call_llm_agent, AgentUnavailableError
+from agents.prompts import TRIAGE_PROMPT, GOD_PROMPT
 from backend.core.schemas import SeverityOutput, TriageLLMOutput
 from backend.utils.logging_config import logger
 

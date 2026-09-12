@@ -14,10 +14,10 @@ from backend.core.schemas import (
 )
 from backend.core.preprocessor import preprocess
 from backend.core.governance import evaluate_governance
-from backend.agents.triage_agent import classify_severity, AgentUnavailableError
-from backend.agents.diagnostic_agent import diagnose_root_cause
-from backend.agents.remediation_agent import generate_remediation
-from backend.agents.post_mortem_agent import generate_post_mortem
+from agents.triage_agent import classify_severity, AgentUnavailableError
+from agents.diagnostic_agent import diagnose_root_cause
+from agents.remediation_agent import generate_remediation
+from agents.post_mortem_agent import generate_post_mortem
 from backend.utils.notifications import notify_on_call
 from backend.utils.logging_config import logger
 

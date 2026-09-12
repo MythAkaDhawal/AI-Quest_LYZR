@@ -1,6 +1,6 @@
 import json
-from backend.agents.base_agent import call_llm_agent, AgentUnavailableError
-from backend.agents.prompts import POST_MORTEM_PROMPT
+from agents.base_agent import call_llm_agent, AgentUnavailableError
+from agents.prompts import POST_MORTEM_PROMPT
 from backend.core.schemas import PostMortemBlock
 from backend.utils.logging_config import logger
 
