@@ -1,0 +1,6 @@
+{
+  "service_name": "checkout-api",
+  "environment": "prod",
+  "log_payload": "2026-09-08T02:14:00Z INFO checkout-api server starting up v2.4.1\n2026-09-08T02:14:01Z INFO checkout-api healthcheck ok, database connected\n2026-09-08T02:14:02Z DEBUG checkout-api processing request_id=req-94812 user_id=88311\n2026-09-08T02:14:02Z INFO checkout-api order total calculated: $149.99\n2026-09-08T02:14:03Z FATAL checkout-api java.lang.NullPointerException at com.checkout.PaymentProcessor.charge(PaymentProcessor.java:118)\n    at com.checkout.PaymentProcessor.processOrder(PaymentProcessor.java:84)\n    at com.checkout.CheckoutController.handleCheckout(CheckoutController.java:45)\n2026-09-08T02:14:03Z ERROR checkout-api HTTP 500 Internal Server Error returned to client\n2026-09-08T02:14:04Z INFO checkout-api gracefully shutting down worker thread-4",
+  "max_context_lines": 10
+}
