@@ -63,8 +63,8 @@ def evaluate_governance(
                 command=None,
                 command_type=ctype,
                 status="BLOCKED_ESCALATED",
-                block_reason="Command did not match an approved allowlist verb, or the agent flagged requires_human_approval. Escalated to on-call.",
-                runbook_steps=runbook_steps,
+                block_reason="Command did not match an approved allowlist verb, or the agent "
+    "flagged requires_human_approval. Escalated to on-call."
             ),
             GovernanceBlock(guardrail_triggered=True),
         )
