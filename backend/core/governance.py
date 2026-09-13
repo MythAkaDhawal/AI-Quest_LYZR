@@ -24,8 +24,6 @@ def load_governance_rules(config_path: Path = GOVERNANCE_CONFIG_PATH) -> tuple[d
 # Load rules at runtime from governance.yaml
 ALLOWLIST_PREFIXES, DENYLIST_PATTERNS = load_governance_rules()
 
-
-
 def evaluate_governance(
     llm_output: TriageLLMOutput | RemediationAgentOutput,
 ) -> tuple[RemediationBlock, GovernanceBlock]:
@@ -48,7 +46,8 @@ def evaluate_governance(
                     command=None,
                     command_type=ctype,
                     status="BLOCKED_ESCALATED",
-                    block_reason=f"Denylist match: destructive pattern '{pattern.pattern}' detected. Escalated to on-call.",
+                    block_reason=f"Denylist match: destructive pattern '{pattern.pattern}' detected. "
+    "Escalated to on-call."
                     runbook_steps=runbook_steps,
                 ),
                 GovernanceBlock(guardrail_triggered=True, matched_denylist_pattern=pattern.pattern),
