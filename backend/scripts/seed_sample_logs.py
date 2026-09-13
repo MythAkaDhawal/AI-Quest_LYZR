@@ -11,7 +11,8 @@ def generate_crash_sample() -> str:
         "2026-09-08T02:14:01Z INFO checkout-api healthcheck ok, database connected",
         "2026-09-08T02:14:02Z DEBUG checkout-api processing request_id=req-94812 user_id=88311",
         "2026-09-08T02:14:02Z INFO checkout-api order total calculated: $149.99",
-        "2026-09-08T02:14:03Z FATAL checkout-api java.lang.NullPointerException at com.checkout.PaymentProcessor.charge(PaymentProcessor.java:118)",
+        "2026-09-08T02:14:03Z FATAL checkout-api java.lang.NullPointerException "
+"at com.checkout.PaymentProcessor.charge(PaymentProcessor.java:118)",
         "    at com.checkout.PaymentProcessor.processOrder(PaymentProcessor.java:84)",
         "    at com.checkout.CheckoutController.handleCheckout(CheckoutController.java:45)",
         "2026-09-08T02:14:03Z ERROR checkout-api HTTP 500 Internal Server Error returned to client",
