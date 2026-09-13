@@ -1,0 +1,55 @@
+# Governance Rules Configuration
+# Layer 1: Closed-Set Allowlist Verbs
+allowlist_prefixes:
+  kubectl:
+    - "kubectl rollout restart"
+    - "kubectl scale"
+    - "kubectl describe"
+    - "kubectl logs"
+    - "kubectl get"
+    - "kubectl top"
+    - "kubectl rollout status"
+    - "kubectl rollout undo"
+  shell:
+    - "systemctl restart"
+    - "systemctl status"
+    - "systemctl reload"
+    - "journalctl"
+    - "df -h"
+    - "free -m"
+    - "netstat"
+    - "ps aux"
+    - "kill -HUP"
+    - "curl -I"
+    - "tail -n"
+  sql:
+    - "SELECT"
+    - "EXPLAIN"
+    - "SHOW"
+    - "ANALYZE"
+  http:
+    - "GET "
+    - "POST /health"
+    - "POST /restart-worker"
+  none:
+    - ""
+
+# Layer 2: Denylist Destructive Patterns (Regex)
+denylist_patterns:
+  - '\brm\s+-rf\b'
+  - '\bmkfs\.'
+  - '\bdd\s+if='
+  - '\bshutdown\b'
+  - '\breboot\b'
+  - '\binit\s+0\b'
+  - ':\(\)\s*\{\s*:\|\:&\s*\}\s*;\s*:'
+  - '\bDROP\s+(TABLE|DATABASE|SCHEMA)\b'
+  - '\bTRUNCATE\b'
+  - '\bDELETE\s+FROM\s+\w+(?!\s+WHERE)'
+  - '\bkubectl\s+delete\s+(ns|namespace|pv|persistentvolume)\b'
+  - '\bchmod\s+-R\s+777\s+/'
+  - '\bchown\s+-R\b.*\s+/\s*$'
+  - '\bdocker\s+system\s+prune\s+-a\s+-f\b'
+  - '\bterraform\s+destroy\b'
+  - '\biptables\s+-F\b'
+  - '\bufw\s+disable\b'

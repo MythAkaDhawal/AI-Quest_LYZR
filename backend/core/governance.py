@@ -1,64 +1,29 @@
 import re
+from pathlib import Path
+import yaml
 from backend.core.schemas import TriageLLMOutput, RemediationAgentOutput, RemediationBlock, GovernanceBlock
 
-# --- Layer 1: CLOSED-SET ALLOWLIST (the actual mathematical guarantee) -------------
-ALLOWLIST_PREFIXES: dict[str, list[str]] = {
-    "kubectl": [
-        "kubectl rollout restart",
-        "kubectl scale",
-        "kubectl describe",
-        "kubectl logs",
-        "kubectl get",
-        "kubectl top",
-        "kubectl rollout status",
-        "kubectl rollout undo",
-    ],
-    "shell": [
-        "systemctl restart",
-        "systemctl status",
-        "systemctl reload",
-        "journalctl",
-        "df -h",
-        "free -m",
-        "netstat",
-        "ps aux",
-        "kill -HUP",
-        "curl -I",
-        "tail -n",
-    ],
-    "sql": [
-        "SELECT",
-        "EXPLAIN",
-        "SHOW",
-        "ANALYZE",
-    ],
-    "http": ["GET ", "POST /health", "POST /restart-worker"],
-    "none": [""],
-}
+GOVERNANCE_CONFIG_PATH = Path(__file__).parent / "governance.yaml"
 
-# --- Layer 2: DENYLIST (defense-in-depth belt-and-suspenders) ---------------------
-DENYLIST_PATTERNS = [
-    re.compile(p, re.IGNORECASE)
-    for p in [
-        r"\brm\s+-rf\b",
-        r"\bmkfs\.",
-        r"\bdd\s+if=",
-        r"\bshutdown\b",
-        r"\breboot\b",
-        r"\binit\s+0\b",
-        r":\(\)\s*\{\s*:\|\:&\s*\}\s*;\s*:",  # fork bomb
-        r"\bDROP\s+(TABLE|DATABASE|SCHEMA)\b",
-        r"\bTRUNCATE\b",
-        r"\bDELETE\s+FROM\s+\w+(?!\s+WHERE)",  # unWHEREd delete
-        r"\bkubectl\s+delete\s+(ns|namespace|pv|persistentvolume)\b",
-        r"\bchmod\s+-R\s+777\s+/",
-        r"\bchown\s+-R\b.*\s+/\s*$",
-        r"\bdocker\s+system\s+prune\s+-a\s+-f\b",
-        r"\bterraform\s+destroy\b",
-        r"\biptables\s+-F\b",
-        r"\bufw\s+disable\b",
-    ]
-]
+
+def load_governance_rules(config_path: Path = GOVERNANCE_CONFIG_PATH) -> tuple[dict[str, list[str]], list[re.Pattern]]:
+    if not config_path.is_file():
+        raise FileNotFoundError(f"Governance configuration file missing at: {config_path}")
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+    except Exception as exc:
+        raise RuntimeError(f"Failed to parse governance configuration file '{config_path}': {exc}") from exc
+
+    allowlist = data.get("allowlist_prefixes", {})
+    denylist_raw = data.get("denylist_patterns", [])
+    compiled_denylist = [re.compile(pattern, re.IGNORECASE) for pattern in denylist_raw]
+    return allowlist, compiled_denylist
+
+
+# Load rules at runtime from governance.yaml
+ALLOWLIST_PREFIXES, DENYLIST_PATTERNS = load_governance_rules()
+
 
 
 def evaluate_governance(
